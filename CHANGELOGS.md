@@ -38,3 +38,12 @@
     - Updated module 'ui.lua' in 'lua/devenv'
         + Test: Returning of the selected module item
 
+#### 1409H
+- Updates
+    - Updated module 'init.lua' in 'lua/devenv'
+        + Test: Added opts option pass to function 'get_file_type()'
+        + Test: Adding of statements after getting file type
+    - Updated module 'ui.lua' in 'lua/devenv'
+        + Test: Modifying function 'get_file_type()' to take in opts table from the init.lua entry point master table
+        + Test: Fixing opts nil value
+

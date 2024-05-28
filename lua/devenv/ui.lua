@@ -75,33 +75,24 @@ function M.import_file_contents(file_name)
     return opts
 end
 
-function M.get_file_type()
+function M.get_file_type(opts)
     --- Initialize Variables
     local res = "" --- This will contain the selected menu item
-    local opts = {} --- Place all your menu options here
-    local config_filename = M.opts.config_filename --- Get the master table's configuration file name
-    local file_extensions = M.opts.extensions --- Get the master table's file extensions list
+    local config_filename = opts.config_filename --- Get the master table's configuration file name
+    local file_extensions = opts.extensions --- Get the master table's file extensions list
 
     --- Data Validation: Check if file name is provided
     if config_filename ~= nil then
         print("Configuration Filename: " .. config_filename)
 
         --- Read menu contents from file
-        local tmp_opts = M.import_file_contents(config_filename)
-        print("Contents imported: " .. tmp_opts)
+        local file_contents = M.import_file_contents(config_filename)
+        print("Contents imported: " .. file_contents)
 
         --- Verify results is not nil
-        if next(tmp_opts) ~= nil then
-            opts = tmp_opts
-        end
-    end
-
-    --- Data Validation: Check if options are populated
-    if next(opts) == nil then
-        --- Import in the default file type/extensions
-        if file_extensions ~= nil then
-            print("Extensions: " .. file_extensions)
-            opts = file_extensions
+        if next(file_contents) == nil then
+            --- Place all your default menu options here
+            file_contents = file_extensions
         end
     end
 

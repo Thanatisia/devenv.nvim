@@ -29,10 +29,16 @@ vim.api.nvim_create_user_command("DevEnvCreate", function(opts)
         print("Arguments: " .. tostring(opts))
     end
 
-    -- Statements
-    local file_type = ui.get_file_type()
+    -- Open popup menu and get the selected file type
+    local file_type = ui.get_file_type(opts)
 
-    print("Selected File Type: " .. file_type)
+    -- Check if a file type is selected
+    if file_type ~= nil then
+        -- Process selected file type
+        print("Selected File Type: " .. file_type)
+
+        -- Statements
+    end
 end, {
     nargs = "*",
 })
