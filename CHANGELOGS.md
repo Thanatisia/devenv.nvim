@@ -2,6 +2,7 @@
 
 ## Table of Contents
 + [2024-05-27](#2024-05-27)
++ [2024-05-28](#2024-05-28)
 
 ## Logs
 ### 2024-05-27
@@ -23,4 +24,10 @@
             + Added new source code 'config.lua' : This is the plugin's config file containing the settings from init.lua
             + Added new source code 'init.lua' : The main entry point of the plugin
             + Added new source code 'ui.lua' : Contains a WIP UI library using plenary to create the popup menu window for user input. For separation-of-duty
+
+### 2024-05-28
+#### 1329H
+- Updates
+    - Updated module 'init.lua' in 'lua/devenv'
+        + Test: Exporting to external libraries
 
