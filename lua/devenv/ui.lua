@@ -78,6 +78,7 @@ end
 function M.get_file_type(opts)
     --- Initialize Variables
     local res = "" --- This will contain the selected menu item
+    local file_contents = {} --- Place all your default menu options here
     local config_filename = opts.config_filename --- Get the master table's configuration file name
     local file_extensions = opts.extensions --- Get the master table's file extensions list
 
@@ -86,14 +87,14 @@ function M.get_file_type(opts)
         print("Configuration Filename: " .. config_filename)
 
         --- Read menu contents from file
-        local file_contents = M.import_file_contents(config_filename)
+        file_contents = M.import_file_contents(config_filename)
         print("Contents imported: " .. file_contents)
+    end
 
-        --- Verify results is not nil
-        if next(file_contents) == nil then
-            --- Place all your default menu options here
-            file_contents = file_extensions
-        end
+    --- Verify results is not nil
+    if next(file_contents) == nil then
+        --- Place all your default menu options here
+        file_contents = file_extensions
     end
 
     --- Define callback event function. Triggered after a menu item is selected from the popup menu window
@@ -105,7 +106,7 @@ function M.get_file_type(opts)
     end
 
     --- Open popup menu for user to select a target file type/extension
-    local bufnr = M.show_menu(opts, cb)
+    local bufnr = M.show_menu(file_contents, cb)
 
     print("Buffer Number: " .. bufnr)
 

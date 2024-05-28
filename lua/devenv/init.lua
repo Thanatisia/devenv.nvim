@@ -5,7 +5,8 @@
 
 --- Import dependency libraries/packages
 local config = require("devenv.config")
-local ui = require("devenv.ui")
+-- local ui = require("devenv.ui")
+local usercmds = require("devenv.api.usercmds")
 
 --- Initialize the lua master dictionary mapping
 local M = {}
@@ -20,28 +21,10 @@ end
 function M.setup(opts)
     --- Activate on require().setup()
     config.setup(opts)
+    print("Configurations are sourced")
+    usercmds.setup(opts)
+    print("User Commands are sourced")
 end
-
---- Set Keymappings
-vim.api.nvim_create_user_command("DevEnvCreate", function(opts)
-    --- Check if options is empty
-    if next(opts) ~= nil then
-        print("Arguments: " .. tostring(opts))
-    end
-
-    -- Open popup menu and get the selected file type
-    local file_type = ui.get_file_type(opts)
-
-    -- Check if a file type is selected
-    if file_type ~= nil then
-        -- Process selected file type
-        print("Selected File Type: " .. file_type)
-
-        -- Statements
-    end
-end, {
-    nargs = "*",
-})
 
 --- Return the master configuration option/values
 return M

@@ -47,3 +47,13 @@
         + Test: Modifying function 'get_file_type()' to take in opts table from the init.lua entry point master table
         + Test: Fixing opts nil value
 
+#### 2317H
+- New
+    - Added new directory 'api' in 'lua/devenv' for containing Neovim Lua API-related lua scripts/modules
+        + Added new module 'usercmds.lua' in 'lua/devenv/api' for containing Neovim User Command definitions
+- Updates
+    - Updated module 'init.lua' in 'lua/devenv'
+        + Test: Testing refactoring of user commands into 'lua/devenv/api/usercmds.lua'
+    - Updated module 'ui.lua' in 'lua/devenv'
+        + Test: Testing refactoring of variable name 'opts' in 'get_file_type()' to 'file_contents'
+
