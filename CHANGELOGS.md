@@ -31,3 +31,10 @@
     - Updated module 'init.lua' in 'lua/devenv'
         + Test: Exporting to external libraries
 
+#### 1342H
+- Updates
+    - Updated module 'init.lua' in 'lua/devenv'
+        + Test: Creating new user command for obtaining a file type from a popup menu, creating the file and populating the file with a snippet corresponding to the file type
+    - Updated module 'ui.lua' in 'lua/devenv'
+        + Test: Returning of the selected module item
+

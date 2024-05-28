@@ -22,6 +22,21 @@ function M.setup(opts)
     config.setup(opts)
 end
 
+--- Set Keymappings
+vim.api.nvim_create_user_command("DevEnvCreate", function(opts)
+    --- Check if options is empty
+    if next(opts) ~= nil then
+        print("Arguments: " .. tostring(opts))
+    end
+
+    -- Statements
+    local file_type = ui.get_file_type()
+
+    print("Selected File Type: " .. file_type)
+end, {
+    nargs = "*",
+})
+
 --- Return the master configuration option/values
 return M
 

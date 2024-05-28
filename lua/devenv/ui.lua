@@ -77,6 +77,7 @@ end
 
 function M.get_file_type()
     --- Initialize Variables
+    local res = "" --- This will contain the selected menu item
     local opts = {} --- Place all your menu options here
     local config_filename = M.opts.config_filename --- Get the master table's configuration file name
     local file_extensions = M.opts.extensions --- Get the master table's file extensions list
@@ -106,7 +107,10 @@ function M.get_file_type()
 
     --- Define callback event function. Triggered after a menu item is selected from the popup menu window
     local cb = function(_, sel)
-        print("Menu Works, Selected item: " .. sel)
+        if sel ~= nil then
+            print("Menu Works, Selected item: " .. sel)
+            res = sel
+        end
     end
 
     --- Open popup menu for user to select a target file type/extension
@@ -115,6 +119,7 @@ function M.get_file_type()
     print("Buffer Number: " .. bufnr)
 
     --- Return the value
+    return res
 end
 
 --- Return the master configuration option/values
