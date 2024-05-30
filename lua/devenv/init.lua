@@ -21,9 +21,7 @@ end
 function M.setup(opts)
     --- Activate on require().setup()
     config.setup(opts)
-    print("Configurations are sourced")
     usercmds.setup(opts)
-    print("User Commands are sourced")
 end
 
 --- Return the master configuration option/values

@@ -3,6 +3,7 @@
 ## Table of Contents
 + [2024-05-27](#2024-05-27)
 + [2024-05-28](#2024-05-28)
++ [2024-05-30](#2024-05-30)
 
 ## Logs
 ### 2024-05-27
@@ -56,4 +57,12 @@
         + Test: Testing refactoring of user commands into 'lua/devenv/api/usercmds.lua'
     - Updated module 'ui.lua' in 'lua/devenv'
         + Test: Testing refactoring of variable name 'opts' in 'get_file_type()' to 'file_contents'
+
+### 2024-05-30
+#### 0931H
+- New
+    - Added new directory 'io' in 'lua/devenv' for containing I/O Processing-related lua scripts/modules
+        + Added new module 'files.lua' for File I/O Handling
+- Updates
+    + Setting Baseline
 
