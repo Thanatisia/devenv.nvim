@@ -39,6 +39,7 @@ function M.create_menu(opts, cb)
     })
 end
 
+--- Open Popup Menu Window, Set the temporary keymap for that specific buffer number and return the buffer number
 --- comment
 --- @return integer
 function M.show_menu()
@@ -54,32 +55,49 @@ function M.show_menu()
     return bufnr
 end
 
+--- Close popup menu after usage
 function M.close_menu()
-    --- Close popup menu after usage
     vim.api.nvim_win_close(win_id, true)
 end
 
---- Handle selection
---- @param bufnr integer
-function M.handle_selection(bufnr)
-    local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
-    local selected_line = cursor_pos[1]
-    local selected_item = vim.api.nvim_buf_get_lines(bufnr, selected_line - 1, selected_line, false)[1]
+--- Open Popup menu, select an item and return the selected menu item value
+--- comment
+--- @param callback any
+function M.select_menu_item(callback)
+    --- Initialize Variables
 
-    -- Call the callback with the selected item
-    M.selection_callback(selected_item)
+    --- Open the Popup menu window and return the buffer number
+    local bufnr = vim.api.nvim_win_get_buf(win_id)
 
-    -- Close the menu
-    M.close_menu()
+    --- Define a callback function to handle selection and call the specified callback with the selected item
+    local function on_select()
+        --- Obtain window and selection information
+        local cursor = vim.api.nvim_win_get_cursor(win_id) --- Get the cursor object pointing to the window
+        local selected_idx = cursor[1] --- Get the selected item's index
+        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false) --- Get the number of lines within the popup menu buffer
+        local selected_item = lines[selected_idx] --- Get the selected item corresponding to the index
+
+        --- Trigger the callback event handler function passed and handle the selected item
+        callback(selected_item)
+
+        --- Close popup menu after usage
+        M.close_menu()
+    end
+
+    --- Set keymapping for selection
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<CR>', '<cmd>lua require("devenv.ui").on_select()<CR>', { noremap = true, silent = true })
+
+    --- Store the on_select function in the module so it can be called by the keymap
+    M.on_select = on_select
 end
 
 --- Get File Types from a popup menu
 --- comment
 --- @param opts any
---- @return string
-function M.get_file_type(opts)
+function M.get_file_type(opts, callback)
     --- Initialize Variables
-    local res = "" --- This will contain the selected menu item
+    local async_res = {} --- Initialize an asynchronous results table to contain the selected menu item
+    local result = "" --- Initialize the result variable to return the file type
     local file_contents = {} --- Place all your default menu options here
     local config_filename = M.opts.config_filename --- Get the master table's configuration file name
     local file_extensions = M.opts.extensions --- Get the master table's file extensions list
@@ -99,21 +117,10 @@ function M.get_file_type(opts)
         file_contents = file_extensions
     end
 
-    --- This will make the stream synchronous
-    local co = coroutine.running()
-
-    --- Ensure that 'co' is a valid coroutine
-    if not co then
-        error("This function must be called within a coroutine")
-    end
-
     --- Define callback event function. Triggered after a menu item is selected from the popup menu window
     local cb = function(_, sel)
-        local co_status = coroutine.status(co)
-        if co_status == "suspended" then
-            --- Resume the coroutine after user input is obtained and return the coroutine's yield
-            coroutine.resume(co, sel)
-        end
+        async_res.result = sel
+        callback(sel)
     end
 
     --- Create popup menu with a file type/extension selection menu
@@ -123,12 +130,8 @@ function M.get_file_type(opts)
     local bufnr = M.show_menu()
     print("Buffer Number: " .. bufnr)
 
-    --- Suspend execution until the callback resumes it
-    local result = coroutine.yield()
-    print("Callback Result: " .. result)
-
-    --- Return the value
-    return result
+    --- Open the popup menu, select an item from the menu list, return value backup to the caller via the callback event handler object
+    M.select_menu_item(callback)
 end
 
 --- Set the script's setup function (Optional)

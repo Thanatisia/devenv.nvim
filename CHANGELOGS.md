@@ -66,3 +66,10 @@
 - Updates
     + Setting Baseline
 
+#### 1811H
+- Updates
+    - Updated module 'init.lua' in 'lua/devenv'
+        + Did a refactor and removed all coroutine functionalities and replaced with using callback event handlers as an 'elevator' to bring the results back up
+    - Updated module 'ui.lua' in 'lua/devenv'
+        + Did a refactor and removed all coroutine functionalities and replaced with using callback event handlers as an 'elevator' to bring the results back up
+
