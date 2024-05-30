@@ -68,8 +68,19 @@
 
 #### 1811H
 - Updates
-    - Updated module 'init.lua' in 'lua/devenv'
+    - Updated module 'usercmds.lua' in 'lua/devenv/api'
         + Did a refactor and removed all coroutine functionalities and replaced with using callback event handlers as an 'elevator' to bring the results back up
     - Updated module 'ui.lua' in 'lua/devenv'
         + Did a refactor and removed all coroutine functionalities and replaced with using callback event handlers as an 'elevator' to bring the results back up
+
+#### 1827H
+- Updates
+    - Updated 'CHANGELOGS.md'
+        + Replaced 'init.lua' => 'usercmds.lua' in '2024-05-30 1811H'
+    - Updated module 'usercmds.lua' in 'lua/devenv/api'
+        + Added in coroutine functionalities for asynchronous handling synchronously
+    - Updated module 'ui.lua' in 'lua/devenv'
+        + Added in coroutine functionalities for asynchronous handling synchronously
+        + Added in comments to the coroutine functions
+
 

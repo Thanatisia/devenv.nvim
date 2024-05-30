@@ -94,7 +94,7 @@ end
 --- Get File Types from a popup menu
 --- comment
 --- @param opts any
-function M.get_file_type(opts, callback)
+function M.get_file_type(opts)
     --- Initialize Variables
     local async_res = {} --- Initialize an asynchronous results table to contain the selected menu item
     local result = "" --- Initialize the result variable to return the file type
@@ -117,10 +117,23 @@ function M.get_file_type(opts, callback)
         file_contents = file_extensions
     end
 
+    --- This will make the stream synchronous
+    local co = coroutine.running()
+
+    --- Ensure that 'co' is a valid coroutine
+    if not co then
+        error("This function must be called within a coroutine")
+    end
+
     --- Define callback event function. Triggered after a menu item is selected from the popup menu window
     local cb = function(_, sel)
+        --- Return the result of the '.create()' function back up to the 'sel' callback object and
+        --- store the sel local variable result into 'async_res.result'
         async_res.result = sel
-        callback(sel)
+        print("cb: " .. tostring(sel))
+
+        --- Resume the coroutine after the menu has been created
+        coroutine.resume(co)
     end
 
     --- Create popup menu with a file type/extension selection menu
@@ -131,7 +144,23 @@ function M.get_file_type(opts, callback)
     print("Buffer Number: " .. bufnr)
 
     --- Open the popup menu, select an item from the menu list, return value backup to the caller via the callback event handler object
-    M.select_menu_item(callback)
+    M.select_menu_item(function(selected_item)
+        --- Return the selected item back up to the 'selected_item' callback object and
+        --- store the selected_item local variable into 'async_res.result'
+        async_res.result = selected_item
+
+        --- Resume the coroutine after user input is obtained
+        coroutine.resume(co)
+    end)
+
+    --- Suspend execution until the callback event handler resumes it
+    coroutine.yield()
+
+    --- Obtain the result
+    result = async_res.result
+
+    --- Return the result
+    return result
 end
 
 --- Set the script's setup function (Optional)
