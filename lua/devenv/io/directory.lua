@@ -22,15 +22,30 @@ end
 function M.create_new_dir(dir_name)
     --- Initialize Variables
     local token = false
+    local rc = nil
+    local cmd_to_exec = "mkdir" .. " " .. dir_name --- command string
 
     --- Check if directory exists
     if not M.check_dir_exists(dir_name) then
         --- Path does not exists
-        --- Create directory
-        os.execute("mkdir" .. " " .. dir_name)
+
+        --- Open (sub)process pipe to execute a command and Create the directory
+        local proc = io.popen(cmd_to_exec)
+
+        --- Check if process is opened properly
+        if proc ~= nil then
+            --- Statements here
+
+            --- Close pipe after usage and return the exit/return/result status code
+            rc = proc:close()
+        end
     end
 
-    token = M.check_dir_exists(dir_name)
+    --- token = M.check_dir_exists(dir_name)
+    --- Check if result is 0 (Success) or > 0 (Error)
+    if rc == 0 then
+        token = true
+    end
 
     return token
 end

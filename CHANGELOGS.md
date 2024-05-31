@@ -111,3 +111,10 @@
     - Updated test source 'test.lua' in 'plugin/'
         + Added new configuration option 'snippets_dir'
 
+#### 1002H
+- Updates
+    - Updated module 'directory.lua' in 'lua/devenv/io/'
+        - Replaced 'os.execute()' with 'io.popen()' (sub)process pipe execution 
+            + for extra security in the form of prepared process calls instead of direct execution
+            + As well as to retrieve the standard streams (output/error)
+
