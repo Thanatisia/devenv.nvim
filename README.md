@@ -28,6 +28,7 @@
             config = function()
                 require("devenv").setup({
                     config_filename = "config.txt", --- Specify the file name of the custom configuration file (containing the list of extensions) you wish to import here
+                    snippets_dir = "snippets", --- Custom Snippets directory
                     extensions = {
                         --- Place your file extensions here
                         "c", --- C

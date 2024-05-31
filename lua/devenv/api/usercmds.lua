@@ -22,6 +22,8 @@ function M.setup(opts)
 end
 
 --- Define and Create User Commands
+
+--- Create a new file of a specific extension
 vim.api.nvim_create_user_command("DevEnvCreate",
     function(opts)
         --- Declare/Initialize Variables
@@ -71,6 +73,61 @@ vim.api.nvim_create_user_command("DevEnvCreate",
         --- Check if coroutine ran successfully
         if not success then
             error("Coroutine error: " .. message)
+        end
+    end, {
+        nargs = "*",
+    }
+)
+
+--- Copy a snippet and create a new file using that snippet file as its base
+vim.api.nvim_create_user_command("DevEnvCopy",
+    function(opts)
+        --- Declare/Initialize Variables
+
+        --- Create a new coroutine for handling asynchronous function synchronously
+        local co = coroutine.create(function()
+            --- Check if options is empty
+            if next(opts.fargs) ~= nil then
+                print("Arguments: " .. table.concat(opts.fargs, " "))
+            end
+
+            -- Open popup menu, select the snippet file of the user's choice and return the yield/result through the callback function as an elevator back up to the caller
+            local snippets_dir, target_snippet_file = ui.get_target_snippet(opts)
+
+            -- Check if a target snippet is selected
+            if target_snippet_file then
+                -- Process selected snippet
+                print("Selected Snippet File: " .. tostring(target_snippet_file))
+
+                -- Statements
+
+                --- Split the target snippet file into filename and extension
+                local file_name, file_extension = utils.split_fname(target_snippet_file)
+
+                --- Get user input : new file name
+                local new_filename = vim.fn.input("New Filename: ", "", "file")
+
+                --- Print newline
+                print("\n")
+
+                --- Data Validation: User Input Null Validation Check
+                if new_filename == "" then
+                    --- Is null, set default value
+                    new_filename = "new" .. "." .. file_extension
+                end
+
+                --- Copy the target snippet file to the new filename
+                print("Copying from " .. snippets_dir .. utils.path_separator .. target_snippet_file .. " => " .. new_filename)
+            end
+        end)
+
+        --- Start the coroutine after the asynchronous operation is completed, and to wait for the user selection to complete.
+        --- WHY ON EARTH IS plenary.popup() ASYNCHRONOUS??????????
+        local success, message = coroutine.resume(co)
+
+        --- Check if coroutine ran successfully
+        if not success then
+            error("Coroutine error: " .. tostring(message))
         end
     end, {
         nargs = "*",

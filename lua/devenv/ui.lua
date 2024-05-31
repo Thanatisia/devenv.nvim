@@ -2,7 +2,9 @@
 
 --- Import dependency libraries/packages
 local popup = require("plenary.popup") --- Popup window using plenary
+local dirs = require("devenv.io.directory") --- Directories I/O Processing
 local fileio = require("devenv.io.files") --- File I/O Processing
+local utils = require("devenv.utils") --- General Utilities
 
 --- Initialize variables
 local M = {}
@@ -49,7 +51,7 @@ function M.show_menu()
     local bufnr = vim.api.nvim_win_get_buf(win_id)
 
     --- Set keymapping only to the specific buffer number to close the menu
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "q", "<cmd>lua close_menu()<CR>", {silent=false})
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "q", "<cmd>lua require('devenv.ui').close_menu()<CR>", {silent=false})
 
     --- Return results
     return bufnr
@@ -160,10 +162,83 @@ function M.get_file_type(opts)
     return result
 end
 
+--- Get a snippets directory file from a popup menu
+--- comment
+--- @param opts any
+function M.get_target_snippet(opts)
+    --- Initialize Variables
+    local async_res = {} --- Initialize an asynchronous results table to contain the selected menu item
+    local result = "" --- Initialize the result variable to return the snippet file
+    local snippets_dir_files = {} --- Place all your default menu options here
+    local config_filename = M.opts.config_filename --- Get the master table's configuration file name
+    local snippets_dir = M.opts.snippets_dir --- Get the master table's snippets directory
+    local file_extensions = M.opts.extensions --- Get the master table's file extensions list
+
+    --- Data Validation: Check if snippets directory is provided
+    if snippets_dir ~= nil then
+        print("Snippets directory: " .. snippets_dir)
+
+        --- Obtain all files in the snippets directory
+        snippets_dir_files = dirs.scandir(snippets_dir)
+        print("Contents imported: " .. tostring(snippets_dir_files))
+    end
+
+    --- Verify results is not nil
+    if next(snippets_dir_files) == nil then
+        error("No snippets found. Please create a new in snippet in the directory specified in the 'snippets_dir' key in the configurations.")
+    end
+
+    --- This will make the stream synchronous
+    local co = coroutine.running()
+
+    --- Ensure that 'co' is a valid coroutine
+    if not co then
+        error("This function must be called within a coroutine")
+    end
+
+    --- Define callback event function. Triggered after a menu item is selected from the popup menu window
+    local cb = function(_, sel)
+        --- Return the result of the '.create()' function back up to the 'sel' callback object and
+        --- store the sel local variable result into 'async_res.result'
+        async_res.result = sel
+
+        --- Resume the coroutine after the menu has been created
+        coroutine.resume(co, sel)
+    end
+
+    --- Create popup menu with a snippets selection menu
+    M.create_menu(snippets_dir_files, cb)
+
+    --- Open popup menu for user to select a target snippets file
+    local bufnr = M.show_menu()
+    print("Buffer Number: " .. bufnr)
+
+    --- Open the popup menu, select an item from the menu list, return value backup to the caller via the callback event handler object
+    M.select_menu_item(function(selected_item)
+        --- Return the selected item back up to the 'selected_item' callback object and
+        --- store the selected_item local variable into 'async_res.result'
+        async_res.result = selected_item
+
+        --- Resume the coroutine after user input is obtained
+        coroutine.resume(co, selected_item)
+    end)
+
+    --- Suspend execution until the callback event handler resumes it
+    result = coroutine.yield()
+
+    --- Merge the result with the snippets directory
+    --- result = snippets_dir .. utils.path_separator .. result
+
+    --- Return the result
+    return snippets_dir, result
+end
+
 --- Set the script's setup function (Optional)
 function M.setup(opts)
     M.opts = opts
     fileio.setup(opts)
+    dirs.setup(opts)
+    utils.setup(opts)
 end
 
 --- Return the master configuration option/values

@@ -5,6 +5,7 @@
 + [2024-05-28](#2024-05-28)
 + [2024-05-30](#2024-05-30)
 + [2024-05-31](#2024-05-31)
++ [2024-06-01](#2024-06-01)
 
 ## Logs
 ### 2024-05-27
@@ -117,4 +118,26 @@
         - Replaced 'os.execute()' with 'io.popen()' (sub)process pipe execution 
             + for extra security in the form of prepared process calls instead of direct execution
             + As well as to retrieve the standard streams (output/error)
+
+### 2024-06-01
+#### 0000H
+- New
+    + Added new document 'TODO.md' for TODO list and pipelines
+
+- Updates
+    - Updated document 'README.md'
+        + Added new configuration key-value 'snippets_dir' into the configuration example
+    - Updated module 'usercmds.lua' in 'lua/devenv/api/'
+        + Added new user command 'DevEnvCopy' for copying a snippet file from the 'snippets' directory to a new file
+    - Updated module 'directory.lua' in 'lua/devenv/io/'
+        + Added new function 'scandir()' which will scan the directory and list all contents/files of the directory
+    - Updated module 'ui.lua' in 'lua/devenv/'
+        + Fixed close_menu() keybind issue
+        + Added asynchronous function 'get_target_snippet()' to open a popup menu (using plenary.popup()) and select a snippet file from the snippets directory
+    - Updated module 'utils.lua' in 'lua/devenv/'
+        + Added function 'print_table()'
+        + Added function 'splitstr()'
+        + Added function 'split_fname()'
+        + Added function 'get_nth_element()'
+        + Added function 'get_last_nth_element()'
 
