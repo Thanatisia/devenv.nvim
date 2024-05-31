@@ -4,6 +4,7 @@
 + [2024-05-27](#2024-05-27)
 + [2024-05-28](#2024-05-28)
 + [2024-05-30](#2024-05-30)
++ [2024-05-31](#2024-05-31)
 
 ## Logs
 ### 2024-05-27
@@ -83,4 +84,30 @@
         + Added in coroutine functionalities for asynchronous handling synchronously
         + Added in comments to the coroutine functions
 
+### 2024-05-31
+#### 0942H
+- New
+    + Added new module 'directory.lua' in 'lua/devenv/io/'
+    + Added new module 'utils.lua' in 'lua/devenv/'
+    - Added new directory 'snippets/' for holding file snippets containing templates for various file types
+        + Added new snippet 'index.css'
+        + Added new snippet 'index.html'
+        + Added new snippet 'init.lua'
+        + Added new snippet 'main.c'
+        + Added new snippet 'main.py'
+        + Added new snippet 'main.sh'
+
+- Updates
+    - Updated module 'usercmds.lua' in 'lua/devenv/api/'
+        + Updated comments
+        + Added directory and file creation after the asynchronous popup menu item selection
+    - Updated module 'config.lua' in 'lua/devenv/'
+        + Added new configuration option 'snippets_dir' for adding a custom snippets directory
+    - Updated module 'files.lua' in 'lua/devenv/io/'
+        + Added comments
+        + Added new functions 'check_file_exists()' and 'create_new_file()'
+    - Updated module 'ui.lua' in 'lua/devenv/'
+        + Performed some cleanup
+    - Updated test source 'test.lua' in 'plugin/'
+        + Added new configuration option 'snippets_dir'
 

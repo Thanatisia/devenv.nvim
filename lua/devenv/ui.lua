@@ -133,7 +133,7 @@ function M.get_file_type(opts)
         print("cb: " .. tostring(sel))
 
         --- Resume the coroutine after the menu has been created
-        coroutine.resume(co)
+        coroutine.resume(co, sel)
     end
 
     --- Create popup menu with a file type/extension selection menu
@@ -150,14 +150,11 @@ function M.get_file_type(opts)
         async_res.result = selected_item
 
         --- Resume the coroutine after user input is obtained
-        coroutine.resume(co)
+        coroutine.resume(co, selected_item)
     end)
 
     --- Suspend execution until the callback event handler resumes it
-    coroutine.yield()
-
-    --- Obtain the result
-    result = async_res.result
+    result = coroutine.yield()
 
     --- Return the result
     return result
