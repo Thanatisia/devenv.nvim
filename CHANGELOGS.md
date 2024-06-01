@@ -141,3 +141,24 @@
         + Added function 'get_nth_element()'
         + Added function 'get_last_nth_element()'
 
+#### 1114H
+- Updates
+    - Updated document 'TODO.md'
+        + Added new TODO for function 'copy()' in 'devenv/io/files.lua'
+    - Updated module 'usercmds.lua' in 'lua/devenv/api/'
+        - User Command 'DevEnvCopy'
+            + Added logic for file copy - copying the selected snippet file from the snippets directory and writing to a new file
+    - Updated module 'files.lua' in 'lua/devenv/io/'
+        - Updated function 'import_file_contents()'
+            + Added file pointer/handle/descriptor close after use
+            + Plans to rename this function into 'read_file()'
+        - Updated function 'create_new_file()' 
+            + Added support for writing string contents and table contents into a file
+            + Plans to rename this function into 'overwrite()'
+        + Added new function 'append_file()' to append string contents and table contents into an exiting file without overwriting/trunking
+        - Added new function 'copy()' to copy the contents of one file (source) into another file (destination)
+            - Note
+                + This function will overwrite existing files
+                + TODO: Add flag to 'overwrite'
+        + Added new function 'merge()' to merge/append the contents of one file (source) into another file (destination)
+

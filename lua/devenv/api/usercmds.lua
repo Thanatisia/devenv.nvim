@@ -117,7 +117,11 @@ vim.api.nvim_create_user_command("DevEnvCopy",
                 end
 
                 --- Copy the target snippet file to the new filename
-                print("Copying from " .. snippets_dir .. utils.path_separator .. target_snippet_file .. " => " .. new_filename)
+                local src = snippets_dir .. utils.path_separator .. target_snippet_file
+                local dst = new_filename
+                print("Copying from " .. src .. " => " .. dst)
+                --- local rc = os.execute("cp" .. " " .. src .. " " .. dst)
+                fileio.copy(src, dst)
             end
         end)
 
