@@ -162,3 +162,14 @@
                 + TODO: Add flag to 'overwrite'
         + Added new function 'merge()' to merge/append the contents of one file (source) into another file (destination)
 
+#### 2207H
+- Updates
+    - Updated module 'usercmds.lua' in 'lua/devenv/api/'
+        - User Command 'DevEnvCreate'
+            + Added Command Line Argument Parsing
+        - User Command 'DevEnvCopy'
+            + Added Command Line Argument Parsing
+    - Updated module 'utils.lua' in 'lua/devenv/'
+        + Added new function 'get_list_size(list)' to count/get the number of elements in an ordered/indexed/positional-based table (array/list/arraylist/vector)
+        + Added new function 'get_table_size(map)' to count/get the number of elements in an unordered/key-value mapping-based table (dictionary/map/hashmap/assocative array/table)
+

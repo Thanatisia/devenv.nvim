@@ -27,14 +27,31 @@ end
 vim.api.nvim_create_user_command("DevEnvCreate",
     function(opts)
         --- Declare/Initialize Variables
+        local argv = {} --- The 'opt.farg' vector/table contains the command line arguments passed to the User Command. '.fargs' is 'opt.args' split by whitspace. For a lua script, use 'arg' to obtain the arguments
+        local argc = 0  --- The number of arguments passed to the command
+
+        --- Check if options is empty
+        if next(opts.fargs) ~= nil then
+            --- print("Arguments: " .. table.concat(opts.fargs, " "))
+            argv = opts.fargs --- fargs is opt.args split by whitespace
+            argc = #argv --- Get the number of arguments passed into the User Command command line
+        end
+
+        --- Check if command line arguments are provided
+        if argc > 0 then
+            for i = 1, argc do
+                --- Get current argument
+                local curr_arg = argv[i]
+
+                --- Print
+                print(i .. " : " .. curr_arg)
+            end
+        else
+            error("No command line arguments provided.")
+        end
 
         --- Create a new coroutine for handling asynchronous function synchronously
         local co = coroutine.create(function()
-            --- Check if options is empty
-            if next(opts.fargs) ~= nil then
-                print("Arguments: " .. table.concat(opts.fargs, " "))
-            end
-
             -- Open popup menu, select the file type of the user's choice and return the yield/result through the callback function as an elevator back up to the caller
             local file_type = ui.get_file_type(opts)
 
@@ -83,14 +100,32 @@ vim.api.nvim_create_user_command("DevEnvCreate",
 vim.api.nvim_create_user_command("DevEnvCopy",
     function(opts)
         --- Declare/Initialize Variables
+        local argv = {} --- The 'opt.farg' vector/table contains the command line arguments passed to the User Command. '.fargs' is 'opt.args' split by whitspace. For a lua script, use 'arg' to obtain the arguments
+        local argc = 0  --- The number of arguments passed to the command
+
+        --- Check if options formatted/split arguments table/list is empty
+        if next(opts.fargs) ~= nil then
+            --- Get Command Line Arguments
+            --- print("Arguments: " .. table.concat(opts.fargs, " "))
+            argv = opts.fargs --- fargs is opt.args split by whitespace
+            argc = #argv --- Get the number of arguments passed into the User Command command line
+        end
+
+        --- Check if command line arguments are provided
+        if argc > 0 then
+            for i = 1, argc do
+                --- Get current argument
+                local curr_arg = argv[i]
+
+                --- Print
+                print(i .. " : " .. curr_arg)
+            end
+        else
+            error("No command line arguments provided.")
+        end
 
         --- Create a new coroutine for handling asynchronous function synchronously
         local co = coroutine.create(function()
-            --- Check if options is empty
-            if next(opts.fargs) ~= nil then
-                print("Arguments: " .. table.concat(opts.fargs, " "))
-            end
-
             -- Open popup menu, select the snippet file of the user's choice and return the yield/result through the callback function as an elevator back up to the caller
             local snippets_dir, target_snippet_file = ui.get_target_snippet(opts)
 

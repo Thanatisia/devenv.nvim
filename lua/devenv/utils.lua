@@ -166,6 +166,42 @@ function M.get_last_nth_element(target_table, n)
     return last_element
 end
 
+--- Count number of elements in a list/array/vector (ordered/positional/indexed-based) table
+--- comment
+--- @param list any
+--- @return integer
+function M.get_list_size(list)
+    --- Initialize Variables
+    local size = 0
+
+    --- Iterate through the list/array and count the nuber of elements
+    for _ in pairs(list) do
+        --- Increment List Size
+        size = size + 1
+    end
+
+    --- return
+    return size
+end
+
+--- Count number of elements in a table/dictionary/map/hashmap/associative array (key-value mapping) table
+--- comment
+--- @param map any
+--- @return integer
+function M.get_table_size(map)
+    --- Initialize Variables
+    local size = 0
+
+    --- Iterate through the map and count the nuber of elements
+    for i,v in pairs(map) do
+        --- Increment List Size
+        size = size + 1
+    end
+
+    --- return
+    return size
+end
+
 --- Return the master configuration option/values
 return M
 
