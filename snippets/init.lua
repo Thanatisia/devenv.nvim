@@ -1,12 +1,16 @@
--- Development Environment Manager
+-- Please place your program documentations and description comments here
+--
 -- :: Information
+-- Author = [author-name]
+-- Project Name = [project-repo-name]
+-- Program Name = [executable]
+--
+-- :: Program
 -- - Dependencies
---     - plenary
+
 
 --- Import dependency libraries/packages
-local config = require("devenv.config")
--- local ui = require("devenv.ui")
-local usercmds = require("devenv.api.usercmds")
+--- Structure: local pkg_name = require("package.module")
 
 --- Initialize the lua master dictionary mapping
 local M = {}
@@ -20,8 +24,6 @@ end
 
 function M.setup(opts)
     --- Activate on require().setup()
-    config.setup(opts)
-    usercmds.setup(opts)
 end
 
 --- Return the master configuration option/values

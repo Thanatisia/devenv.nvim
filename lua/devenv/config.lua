@@ -6,7 +6,8 @@ local defaults = {}
 
 --- Set master table as default options
 M.opts = {
-    config_filename = "config.txt",
+    config_filename = "config.txt", --- Custom configuration filename
+    snippets_dir = "snippets", --- Custom Snippets directory
     extensions = {
         --- Place your file extensions here
         "c", --- C
